@@ -1,0 +1,31 @@
+#!/usr/bin/env python3
+from termcolor import colored
+from argparse import ArgumentParser
+from os import system, unlink
+import base64
+
+filedata = """Y29uc3QgZnMgPSByZXF1aXJlKCdmcycpO2NvbnN0IGYgPSBwcm9jZXNzLmFyZ3ZbMl07bGV0IGQgPSAiIjt0cnkge2QgPSBmcy5yZWFkRmlsZVN5bmMoZiwgJ3V0ZjgnKTt9IGNhdGNoIChlcnIpIHtjb25zb2xlLmVycm9yKGVycik7fWNvbnNvbGUubG9nKGQpO2NvbnN0IHplcm8gPSAnK1tdJztjb25zdCBvbmUgPSAnKyEhW10nO2NvbnN0IG51bWJlciA9IG4gPT4ge2lmIChuID09PSAwKSByZXR1cm4gemVybztyZXR1cm4gQXJyYXkuZnJvbSh7bGVuZ3RoOiBufSwgKCkgPT4gb25lKS5qb2luKCcgKyAnKTt9O2NvbnN0IG1hcCA9IHt9O2NvbnN0IGZyb21TdHJpbmcgPSBzID0+cy5zcGxpdCgnJykubWFwKHggPT4ge2lmICghKHggaW4gbWFwKSkge2NvbnN0IGNoYXJDb2RlID0geC5jaGFyQ29kZUF0KDApO3JldHVybiBgKFtdK1tdKVske2Zyb21TdHJpbmcoJ2NvbnN0cnVjdG9yJyl9XVske2Zyb21TdHJpbmcoJ2Zyb21DaGFyQ29kZScpfV0oJHtudW1iZXIoY2hhckNvZGUpfSlgO31yZXR1cm4gbWFwW3hdO30pLmpvaW4oJysnKTttYXAuYSA9IGAoK3t9K1tdKVske251bWJlcigxKX1dYDttYXAuYiA9IGAoe30rW10pWyR7bnVtYmVyKDIpfV1gO21hcC5vID0gYCh7fStbXSlbJHtudW1iZXIoMSl9XWA7bWFwLmUgPSBgKHt9K1tdKVske251bWJlcig0KX1dYDttYXAuYyA9IGAoe30rW10pWyR7bnVtYmVyKDUpfV1gO21hcC50ID0gYCh7fStbXSlbJHtudW1iZXIoNil9XWA7bWFwWycgJ10gPSBgKHt9K1tdKVske251bWJlcig3KX1dYDttYXAuZiA9IGAoIVtdK1tdKVske251bWJlcigwKX1dYDttYXAucyA9IGAoIVtdK1tdKVske251bWJlcigzKX1dYDttYXAuciA9IGAoISFbXStbXSlbJHtudW1iZXIoMSl9XWA7bWFwLnUgPSBgKCEhW10rW10pWyR7bnVtYmVyKDIpfV1gO21hcC5pID0gYCgoKyEhW10vK1tdKStbXSlbJHtudW1iZXIoMyl9XWA7bWFwLm4gPSBgKCgrISFbXS8rW10pK1tdKVske251bWJlcig0KX1dYDttYXAuUyA9IGAoW10rKFtdK1tdKVske2Zyb21TdHJpbmcoJ2NvbnN0cnVjdG9yJyl9XSlbJHtudW1iZXIoOSl9XWA7bWFwLmcgPSBgKFtdKyhbXStbXSlbJHtmcm9tU3RyaW5nKCdjb25zdHJ1Y3RvcicpfV0pWyR7bnVtYmVyKDE0KX1dYDttYXAucCA9IGAoW10rKC8tLylbJHtmcm9tU3RyaW5nKCdjb25zdHJ1Y3RvcicpfV0pWyR7bnVtYmVyKDE0KX1dYDttYXBbJ1xcJ10gPSBgKC9cXFxcLytbXSlbJHtudW1iZXIoMSl9XWA7bWFwLmQgPSBgKCR7bnVtYmVyKDEzKX0pWyR7ZnJvbVN0cmluZygndG9TdHJpbmcnKX1dKCR7bnVtYmVyKDE0KX0pYDttYXAuaCA9IGAoJHtudW1iZXIoMTcpfSlbJHtmcm9tU3RyaW5nKCd0b1N0cmluZycpfV0oJHtudW1iZXIoMTgpfSlgO21hcC5tID0gYCgke251bWJlcigyMil9KVske2Zyb21TdHJpbmcoJ3RvU3RyaW5nJyl9XSgke251bWJlcigyMyl9KWA7bWFwLkMgPSBgKCgoKT0+e30pWyR7ZnJvbVN0cmluZygnY29uc3RydWN0b3InKX1dKCR7ZnJvbVN0cmluZygncmV0dXJuIGVzY2FwZScpfSkoKSgke21hcFsnXFwnXX0pKVske251bWJlcigyKX1dYDtjb25zdCBjb21waWxlID0gY29kZSA9PiBgKCgpPT57fSlbJHtmcm9tU3RyaW5nKCdjb25zdHJ1Y3RvcicpfV0oJHtmcm9tU3RyaW5nKGNvZGUpfSlgO2NvbnNvbGUubG9nKGNvbXBpbGUoZCkpOw=="""
+
+def getArgs():
+    parser = ArgumentParser("conv-js", description="Convert regular JS files into an unreadable format.")
+    parser.add_argument("file", type=str, help="Specify the file you want to encode.")
+    parser.add_argument("-o", "--output" ,type=str, required=False, dest="output", help="Specify the output filename. default is out.js", default="out.js")
+    return parser.parse_args()
+
+def createFile():
+    with open('tmp.js', "w") as f:
+        f.write(base64.b64decode(filedata))
+        f.close()
+    
+
+def main():
+    args = getArgs()
+    colored("Starting process", "green")
+    createFile()
+    system(f'node tmp.js "{args.file}" > {args.output}')
+    unlink("tmp.js")
+    print(colored("Done!", "green"))
+
+
+if __name__ == '__main__':
+    main()
