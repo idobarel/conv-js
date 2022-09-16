@@ -5,7 +5,7 @@ python3 -c "from termcolor import colored; print(colored('Installing requirement
 pip3 install -r requirements.txt
 python3 -c "from termcolor import colored; print(colored('Downloading the binary', 'yellow'))"
 wget https://raw.githubusercontent.com/idobarel/conv-js/main/conv-js
-chmod +x mtps
+chmod +x conv-js
 python3 -c "from termcolor import colored; print(colored('Moving conv-js to /usr/bin', 'yellow'))"
 sudo mv conv-js /usr/bin
 clear
